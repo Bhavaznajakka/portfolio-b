@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhavazna | 3D Portfolio</title>
+  <style>
+    :root {
+      --bg: #0d0b1a;
+      --bg2: #1a1026;
+      --card: rgba(255, 255, 255, 0.08);
+      --text: #fdf7ff;
+      --muted: #d9c7ea;
+      --primary: #ff4d8d;
+      --secondary: #ffb703;
+      --accent: #7c3aed;
+      --line: rgba(255,255,255,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,77,141,0.38), transparent 20%),
+        radial-gradient(circle at 80% 70%, rgba(124,58,237,0.42), transparent 28%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 8%;
+      background: rgba(10, 11, 24, 0.5);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--secondary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary);
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 120px 8% 70px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero {
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .hero-content {
+      max-width: 620px;
+      z-index: 2;
+    }
+
+    .tag {
+      color: var(--secondary);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      margin-bottom: 18px;
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 0.95;
+      margin: 0 0 18px;
+    }
+
+    h1 span, h2 span {
+      color: var(--secondary);
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 12px 30px rgba(255, 183, 3, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .hero-visual {
+      width: 360px;
+      height: 360px;
+      display: grid;
+      place-items: center;
+      perspective: 1000px;
+      position: relative;
+    }
+
+    .cube {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      transform-style: preserve-3d;
+      animation: spin 14s linear infinite;
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 3.5rem;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, rgba(255,77,141,0.8), rgba(124,58,237,0.7));
+      box-shadow: inset 0 0 25px rgba(255,255,255,0.15), 0 0 35px rgba(255,183,3,0.18);
+    }
+
+    .front  { transform: translateZ(110px); }
+    .back   { transform: rotateY(180deg) translateZ(110px); }
+    .right  { transform: rotateY(90deg) translateZ(110px); }
+    .left   { transform: rotateY(-90deg) translateZ(110px); }
+    .top    { transform: rotateX(90deg) translateZ(110px); }
+    .bottom { transform: rotateX(-90deg) translateZ(110px); }
+
+    @keyframes spin {
+      from { transform: rotateX(-15deg) rotateY(0deg); }
+      to   { transform: rotateX(-15deg) rotateY(360deg); }
+    }
+
+    .title {
+      width: 100%;
+      text-align: center;
+    }
+
+    .title h2 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      margin-bottom: 12px;
+    }
+
+    .cards {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 35px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 28px 22px;
+      min-height: 220px;
+      transition: transform 0.35s ease, border-color 0.35s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .card:hover {
+      transform: perspective(1000px) rotateX(7deg) rotateY(-7deg) translateY(-8px);
+      border-color: rgba(255,183,3,0.6);
+    }
+
+    .card h3 {
+      color: var(--secondary);
+      margin-top: 0;
+      font-size: 1.4rem;
+    }
+
+    .education-box {
+      max-width: 900px;
+      width: 100%;
+      margin: 35px auto 0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 28px;
+      text-align: left;
+    }
+
+    .education-item {
+      border-left: 2px solid rgba(255,183,3,0.8);
+      padding-left: 18px;
+      margin-bottom: 20px;
+    }
+
+    .education-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .education-item h3 {
+      margin: 0 0 8px;
+      color: var(--secondary);
+    }
+
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 18px;
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    .skill-item {
+      padding: 18px 12px;
+      border-radius: 16px;
+      text-align: center;
+      font-weight: bold;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      transition: 0.3s ease;
+    }
+
+    .skill-item:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,183,3,0.8);
+      box-shadow: 0 14px 28px rgba(255,183,3,0.12);
+    }
+
+    #contact {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .contact-wrap {
+      width: min(900px, 100%);
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: left;
+    }
+
+    .contact-card h3 {
+      color: var(--secondary);
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .contact-card p {
+      margin: 8px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 20px 35px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 850px) {
+      .nav-links {
+        display: none;
+      }
+
+      section {
+        padding: 110px 7% 60px;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .buttons {
+        justify-content: center;
+      }
+
+      .cards,
+      .skill-grid,
+      .contact-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">BHAVAZNA</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="tag">Welcome to my universe</div>
+      <h1>I'm <span>Bhavazna</span></h1>
+      <p>
+        A creative student and aspiring frontend developer building modern,
+        interactive, and user-friendly websites with passion and purpose.
+      </p>
+      <div class="buttons">
+        <a class="btn" href="#projects">View Projects</a>
+        <a class="btn secondary" href="#contact">Contact Me</a>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-label="3D cube design">
+      <div class="cube">
+        <div class="face front">B</div>
+        <div class="face back">✦</div>
+        <div class="face right">3D</div>
+        <div class="face left">★</div>
+        <div class="face top">◆</div>
+        <div class="face bottom">B</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="title">
+      <h2>About <span>Me</span></h2>
+      <p>I enjoy learning technology, designing beautiful interfaces, and bringing ideas to life through digital experiences.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Web Development</h3>
+          <p>Creating responsive and engaging websites using HTML, CSS, and JavaScript.</p>
+        </div>
+        <div class="card">
+          <h3>Creative Design</h3>
+          <p>Designing modern layouts with a strong focus on clean visuals and user experience.</p>
+        </div>
+        <div class="card">
+          <h3>AI & Future Tech</h3>
+          <p>Exploring innovation, problem solving, and how technology can shape everyday life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="title">
+      <h2>My <span>Education</span></h2>
+      <div class="education-box">
+        <div class="education-item">
+          <h3>Bachelor of Technology</h3>
+          <p>BSc AI</p>
+          <p>Currently pursuing a degree focused on artificial intelligence, software development, and emerging technologies.</p>
+        </div>
+        <div class="education-item">
+          <h3>Schooling</h3>
+          <p>Intermediate: Completed with a strong foundation in science and technology.</p>
+          <p>Secondary education: Built basic academic skills and a passion for creativity and innovation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="title">
+      <h2>My <span>Skills</span></h2>
+      <p>I’m learning and growing with tools that help me build clean, creative, and functional digital products.</p>
+      <div class="skill-grid">
+        <div class="skill-item">HTML</div>
+        <div class="skill-item">CSS</div>
+        <div class="skill-item">JavaScript</div>
+        <div class="skill-item">SQL</div>
+        <div class="skill-item">Python</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="title">
+      <h2>My <span>Projects</span></h2>
+      <div class="cards">
+        <div class="card">
+          <h3>3D Portfolio</h3>
+          <p>An interactive portfolio with a modern 3D aesthetic and smooth visual design.</p>
+          <a class="btn" href="#contact">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Smart Timetable</h3>
+          <p>A clean and organized timetable layout designed for students and daily planning.</p>
+          <a class="btn" href="#contact">Learn More</a>
+        </div>
+        <div class="card">
+          <h3>Future Project</h3>
+          <p>More creative projects are on the way as I continue to grow my skills.</p>
+          <a class="btn" href="#contact">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-wrap">
+      <div>
+        <h2>Let's Work Together <span>Connect</span></h2>
+        <p>Have an idea or want to collaborate? I’d love to hear about it.</p>
+        <a class="btn" href="mailto:bhavaznajakka@gmail.com">Email Me</a>
+      </div>
+
+      <div class="contact-card">
+        <h3>Location</h3>
+        <p>📍 Vijayawada, India</p>
+        <p>Open to remote opportunities and creative collaborations.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Bhavazna. Designed with creativity.</footer>
+</body>
+</html>
